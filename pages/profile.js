@@ -1,13 +1,10 @@
 import React from 'react';
-import { Input, Form, Button, List, Card, Icon } from 'antd';
+import { Button, List, Card, Icon } from 'antd';
 import NicknameEditForm from '../components/NicknameEditForm';
-
-const dummy = {
-    follers : ['dd', 'aa', 'bcc'],
-    followings : ['dd', 'aa', 'bcc', 'aa', 'ww', 'ddfd', 'fsdf']
-}
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
+    const { Followings, Followers } = useSelector(state => state.user.user);
     return (
         <div>
             <NicknameEditForm />
@@ -18,7 +15,7 @@ const Profile = () => {
                 header={<div>follower list</div>}
                 loadMore={<Button style={{width: "100%"}}> more </Button>}
                 bordered
-                dataSource={dummy.follers}
+                dataSource={Followers}
                 renderItem={item => (
                     <List.Item style={{marginTop: '20px'}}>
                         <Card actions={[<Icon type="stop" />]}>
@@ -34,7 +31,7 @@ const Profile = () => {
                 header={<div>following list</div>}
                 loadMore={<Button style={{width: "100%"}}> more </Button>}
                 bordered
-                dataSource={dummy.followings}
+                dataSource={Followings}
                 renderItem={item => (
                     <List.Item style={{marginTop: '20px'}}>
                         <Card actions={[<Icon type="stop" />]}>
