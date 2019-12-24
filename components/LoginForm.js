@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import Link from 'next/link';
 import { Input, Button, Form } from 'antd';
 import { useDispatch } from 'react-redux';
+
 import  { useInput } from '../pages/signup';
 import { loginAction } from '../reducers/user';
 
@@ -11,7 +12,7 @@ const LoginForm = () => {
     const dispatch = useDispatch();
     const onSubmitForm = useCallback((e) => {
         e.preventDefault();
-        dispatch(loginAction);
+        dispatch(loginAction({id, password}));
         console.log({id, password});
     }, [id, password]);
 
@@ -31,7 +32,6 @@ const LoginForm = () => {
                 <Button type="primary" htmlType="submit" loading={false}>login</Button>
                 <Button><Link href="/signup"><a>Sign up</a></Link></Button>
             </div>
-            
         </Form>
         );
 }

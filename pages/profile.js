@@ -1,10 +1,11 @@
 import React from 'react';
 import { Button, List, Card, Icon } from 'antd';
-import NicknameEditForm from '../components/NicknameEditForm';
 import { useSelector } from 'react-redux';
 
+import NicknameEditForm from '../components/NicknameEditForm';
+
 const Profile = () => {
-    const { Followings, Followers } = useSelector(state => state.user.user);
+    const { Followings, Followers } = useSelector(state => state.user.me);
     return (
         <div>
             <NicknameEditForm />

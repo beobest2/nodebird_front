@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { Card, Avatar, Button } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { logoutAction } from '../reducers/user';
 
+import { logoutAction } from '../reducers/user';
 
 
 const UserProfile = () => {
@@ -12,7 +12,7 @@ const UserProfile = () => {
         dispatch(logoutAction);
     }, []);
 
-    const { nickname, Postings, Followings, Followers } = useSelector(state => state.user.user); 
+    const { nickname, Postings, Followings, Followers } = useSelector(state => state.user.me);
     return (
         <>
         <Card
