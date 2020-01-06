@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { Form, Input, Checkbox, Button } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { signUpAction } from '../reducers/user';
+import { SIGN_UP_REQUEST } from '../reducers/user';
 
 export const useInput = (initValue = null) => {
     const [value, setter] = useState(initValue);
@@ -21,8 +21,10 @@ const Signup = () => {
     const [id, onChangeId] = useInput('');
     const [nick, onChangeNick] = useInput('');
     const [password, onChangePassword] = useInput('');
-    
+
     const dispatch = useDispatch();
+    const { isSigningUp } = useSelector(state => state.user);
+
     const onSubmit = useCallback((e) => {
         e.preventDefault();
 
@@ -42,11 +44,14 @@ const Signup = () => {
             term
         });
         
-        dispatch(signUpAction({
-            id,
-            password,
-            nick
-        }));
+        dispatch({
+            type: SIGN_UP_REQUEST,
+            data: {
+                id,
+                password,
+                nick
+            },
+        });
 
     }, [password, passwordCheck, term]);
 
@@ -99,7 +104,7 @@ const Signup = () => {
                 <br />
                 <br />
                 <div style={{marginTop: 10}}>
-                    <Button type="primary" htmlType="submit">Sign up</Button>
+                    <Button type="primary" htmlType="submit" loading={isSigningUp}>Sign up</Button>
                 </div>
             </Form>
         </div>  
