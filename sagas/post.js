@@ -28,27 +28,35 @@ function* addPost() {
 
 function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost);
-  }
-  
-  function addCommentAPI() {
-  
-  }
+}
+
+function addCommentAPI() {
+
+}
 
 function* addComment(action) {
-  try {
-    yield delay(2000);
+  yield delay(1000);
     yield put({
       type: ADD_COMMENT_SUCCESS,
       data: {
         postId: action.data.postId,
       },
     });
-  } catch (e) {
-    yield put({
-      type: ADD_COMMENT_FAILURE,
-      error: e,
-    });
-  }
+
+  // try {
+  //   yield delay(1000);
+  //   yield put({
+  //     type: ADD_COMMENT_SUCCESS,
+  //     data: {
+  //       postId: action.data.postId,
+  //     },
+  //   });
+  // } catch (e) {
+  //   yield put({
+  //     type: ADD_COMMENT_FAILURE,
+  //     error: e,
+  //   });
+  // }
 }
 
 function* watchAddComment() {

@@ -1,8 +1,17 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Form, Input, Checkbox, Button } from 'antd';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-
+import Router from 'next/router';
 import { SIGN_UP_REQUEST } from '../reducers/user';
+
+const TextInput = ({value}) => {
+    <div>{value}</div>
+}
+
+TextInput.propTypes = {
+    value: PropTypes.string,
+}
 
 export const useInput = (initValue = null) => {
     const [value, setter] = useState(initValue);
@@ -23,7 +32,13 @@ const Signup = () => {
     const [password, onChangePassword] = useInput('');
 
     const dispatch = useDispatch();
-    const { isSigningUp } = useSelector(state => state.user);
+    const { isSigningUp, me } = useSelector(state => state.user);
+
+    useEffect(() => {
+        if (me) {
+            Router.push('/');
+        }
+    }, [me && me.id]);
 
     const onSubmit = useCallback((e) => {
         e.preventDefault();
@@ -47,13 +62,13 @@ const Signup = () => {
         dispatch({
             type: SIGN_UP_REQUEST,
             data: {
-                id,
+                userId: id,
                 password,
-                nick
+                nickname: nick
             },
         });
 
-    }, [password, passwordCheck, term]);
+    }, [id, nick, password, passwordCheck, term]);
 
     const onChangePasswordCheck = useCallback((e) => {
         setPasswordError(e.target.value !== password);

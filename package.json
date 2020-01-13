@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "antd": "^3.26.3",
+    "axios": "^0.19.1",
     "eslint-config-airbnb": "^18.0.1",
     "next": "^9.1.5",
     "next-redux-wrapper": "^4.0.1",

@@ -14,14 +14,14 @@ const UserProfile = () => {
         },);
     }, []);
 
-    const { nickname, Postings, Followings, Followers } = useSelector(state => state.user.me);
+    const { nickname, Posts, Followings, Followers } = useSelector(state => state.user.me);
     return (
         <>
         <Card
             actions={[
-                <div key="posting">posting<br />{Postings.length}</div>,
-                <div key="following">following<br />{Followings.length}</div>,
-                <div key="follower">follower<br />{Followers.length}</div>
+                // <div key="posting">posting<br />{Posts.length}</div>,
+                // <div key="following">following<br />{Followings.length}</div>,
+                // <div key="follower">follower<br />{Followers.length}</div>
             ]}
         >
             <Card.Meta

@@ -68,7 +68,7 @@ export default (state = initialState, action) => {
           ...state,
           isLoggingIn: false,
           isLoggedIn: true,
-          me: dummyUser,
+          me: action.data,
           isLoading: false,
         };
       }
@@ -84,6 +84,13 @@ export default (state = initialState, action) => {
       case LOG_OUT_REQUEST: {
         return {
           ...state,
+          isLoggingOut: true,
+        };
+      }
+      case LOG_OUT_SUCCESS: {
+        return {
+          ...state,
+          isLoggingOut: false,
           isLoggedIn: false,
           me: null,
         };
@@ -108,6 +115,25 @@ export default (state = initialState, action) => {
           ...state,
           isSigningUp: false,
           signUpErrorReason: action.error,
+        };
+      }
+      case LOAD_USER_REQUEST: {
+        return {
+          ...state,
+        };
+      }
+      case LOAD_USER_SUCCESS: {
+        return {
+          ...state,
+          me: action.data,
+          isLoggingIn: false,
+          isLoggedIn: true,
+          isLoading: false,
+        };
+      }
+      case LOAD_USER_FAILURE: {
+        return {
+          ...state,
         };
       }
       default: {
