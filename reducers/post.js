@@ -1,14 +1,5 @@
 export const initialState = {
-    mainPosts: [{
-        id: 1,
-        User:{
-            id: 1,
-            nickname: 'jaden'
-        },
-        content: 'first topic',
-        img: 'https://images.unsplash.com/photo-1576460303646-1b9493abfd35?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80',
-        Comments: [],
-    }],
+    mainPosts: [],
     imagePaths: [], // 미리보기 이미지 경로
     addPostErrorReason: false, // 포스트 업로드 실패 사유
     isAddingPost: false, // 포스트 업로드 중
@@ -16,26 +7,6 @@ export const initialState = {
     isAddingComment: false, // 댓글 추가 중
     addCommentErrorReason: '', // 댓글 추가 실패 사유
     commentAdded: false, // 댓글 추가 성공
-};
-
-const dummyPost = {
-    id: 2,
-    User: {
-        id: 1,
-        nickname: 'jaden'
-    },
-    content: 'I am dummy ~',
-    Comments: [],
-};
-
-const dummyComment = {
-    id: 1,
-    User: {
-        id: 1,
-        nickname: 'jaden',
-    },
-    createdAt: new Date(),
-    content: 'this is dummy comment'
 };
 
 export const LOAD_MAIN_POSTS_REQUEST = 'LOAD_MAIN_POSTS_REQUEST';
@@ -120,7 +91,7 @@ export default (state = initialState, action) => {
         case ADD_COMMENT_SUCCESS: {
             const postIndex = state.mainPosts.findIndex(v => v.id === action.data.postId);
             const post = state.mainPosts[postIndex];
-            const Comments = [...post.Comments, dummyComment];
+            const Comments = [...post.Comments, action.data.comment];
             const mainPosts = [...state.mainPosts];
             mainPosts[postIndex] = {...post, Comments};
             return {
@@ -137,19 +108,25 @@ export default (state = initialState, action) => {
                 addCommentErrorReason: action.error,
             };
         }
-        case LOAD_MAIN_POSTS_REQUEST: {
+        case LOAD_MAIN_POSTS_REQUEST:
+        case LOAD_HASHTAG_POSTS_REQUEST:
+        case LOAD_USER_POSTS_REQUEST: {
             return {
                 ...state,
                 mainPosts: [],
             };
         }
-        case LOAD_MAIN_POSTS_SUCCESS: {
+        case LOAD_MAIN_POSTS_SUCCESS:
+        case LOAD_HASHTAG_POSTS_SUCCESS:
+        case LOAD_USER_POSTS_SUCCESS: {
             return {
                 ...state,
                 mainPosts: action.data,
             };
         }
-        case LOAD_MAIN_POSTS_FAILURE: {
+        case LOAD_MAIN_POSTS_FAILURE:
+        case LOAD_HASHTAG_POSTS_FAILURE:
+        case LOAD_USER_POSTS_FAILURE: {
             return {
                 ...state,
             };

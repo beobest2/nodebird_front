@@ -11,7 +11,7 @@ import rootSaga from '../sagas';
 import AppLayout from '../components/AppLayout';
 
 
-const NodeBird = ({ Component, store }) => {
+const NodeBird = ({ Component, store, pageProps }) => {
     return (
         <Provider store={store}>
             <Head>
@@ -19,7 +19,7 @@ const NodeBird = ({ Component, store }) => {
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.25.3/antd.css" />
             </Head>
             <AppLayout>
-                <Component />
+                <Component {...pageProps}/>
             </AppLayout>
         </Provider>
     );
@@ -28,7 +28,18 @@ const NodeBird = ({ Component, store }) => {
 NodeBird.propTypes = {
     Component: PropTypes.elementType.isRequired,
     store: PropTypes.object.isRequired,
+    pageProps: PropTypes.object.isRequired,
 }
+
+NodeBird.getInitialProps = async (context) => {
+    //console.log(context);
+    const {ctx, Component} = context;
+    let pageProps = {};
+    if (Component.getInitialProps){
+        pageProps = await Component.getInitialProps(ctx);
+    }
+    return { pageProps };
+};
 
 const configureStore = (initialState, options) => {
     const sagaMiddleware = createSagaMiddleware();

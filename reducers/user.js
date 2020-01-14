@@ -123,13 +123,19 @@ export default (state = initialState, action) => {
         };
       }
       case LOAD_USER_SUCCESS: {
+        if(action.me) {
+          return {
+            ...state,
+            me: action.data,
+            isLoggingIn: false,
+            isLoggedIn: true,
+            isLoading: false,
+          };
+        }
         return {
           ...state,
-          me: action.data,
-          isLoggingIn: false,
-          isLoggedIn: true,
-          isLoading: false,
-        };
+          userInfo: action.data,
+        }; 
       }
       case LOAD_USER_FAILURE: {
         return {
