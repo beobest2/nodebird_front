@@ -1,12 +1,13 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { Input, Button, Form } from 'antd';
-import { useSelector, useDispatch } from 'react-redux';
-import { ADD_POST_REQUEST } from '../reducers/post';
+import { useSelector, useDispatch, useRef } from 'react-redux';
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../reducers/post';
 
 const PostForm = () => {
     const dispatch =  useDispatch();
     const [text, setText] = useState('');
     const { imagePaths, isAddingPost, postAdded } = useSelector(state => state.post);
+    const imageInput = useRef();
 
     useEffect(() => {
         setText('');
@@ -29,12 +30,28 @@ const PostForm = () => {
         setText(e.target.value);
     }, []);
 
+    const onChangeImages = useCallback((e) => {
+        console.log(e.target.files);
+        const imageFormData = new FormData();
+        [].forEach.call(e.target.files, (f) => {
+            imageFormData.append('image', f);
+        });
+        dispatch({
+            type: UPLOAD_IMAGES_REQUEST,
+            data: imageFormData,
+        })
+    }, []);
+
+    const onClickImageUpload = useCallback(() => {
+        imageInput.current.click();
+    }, [imageInput.current]);
+
     return (
         <Form style={{margin: '10px 0 120px'}} encType="multipart/form-data" onSubmit={onSubmitForm}>
             <Input.TextArea maxLength={140} placeholder="what funny things happened ?" value={text} onChange={onChangeText}/>
             <div>
-                <input type="file" multiple hidden />
-                <Button>upload image</Button>
+                <input type="file" multiple hidden ref={imageInput} onChange={onChangeImages}/>
+                <Button onClick={onClickImageUpload}>upload image</Button>
                 <Button type="primary" style={{float: 'right'}} htmlType="submit" loading={isAddingPost}>post</Button>
             </div>
             <div>
