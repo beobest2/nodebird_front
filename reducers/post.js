@@ -65,12 +65,18 @@ export default (state = initialState, action) => {
         case UPLOAD_IMAGES_SUCCESS: {
             return {
                 ...state,
-                imagePaths: [...state.imagePaths, ...action.data],
+                imagePaths: [...state.imagePaths, action.data],
             };
         }
         case UPLOAD_IMAGES_FAILURE: {
             return {
                 ...state,
+            };
+        }
+        case REMOVE_IMAGE: {
+            return {
+                ...state,
+                imagePaths: state.imagePaths.filter((v, i) => i !== action.index),
             };
         }
         case ADD_POST_REQUEST: {

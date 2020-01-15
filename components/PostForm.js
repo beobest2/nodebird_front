@@ -1,7 +1,7 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { Input, Button, Form } from 'antd';
-import { useSelector, useDispatch, useRef } from 'react-redux';
-import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../reducers/post';
+import { useSelector, useDispatch } from 'react-redux';
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE } from '../reducers/post';
 
 const PostForm = () => {
     const dispatch =  useDispatch();
@@ -46,6 +46,13 @@ const PostForm = () => {
         imageInput.current.click();
     }, [imageInput.current]);
 
+    const onRemoveImage = useCallback(index => () => {
+        dispatch({
+            type: REMOVE_IMAGE,
+            index,
+        });
+    }, []);
+
     return (
         <Form style={{margin: '10px 0 120px'}} encType="multipart/form-data" onSubmit={onSubmitForm}>
             <Input.TextArea maxLength={140} placeholder="what funny things happened ?" value={text} onChange={onChangeText}/>
@@ -55,11 +62,11 @@ const PostForm = () => {
                 <Button type="primary" style={{float: 'right'}} htmlType="submit" loading={isAddingPost}>post</Button>
             </div>
             <div>
-                {imagePaths.map((v) => (
+                {imagePaths.map((v, i) => (
                     <div  key={v} style={{display:'inline-block'}}>
                         <img src={`http://localhost:3065/${v}`} style={{width: '200px'}} alt = {v} />
                         <div>
-                            <Button>delete</Button>
+                            <Button onClick={onRemoveImage(i)}>delete</Button>
                         </div>
                     </div>)
                 )}

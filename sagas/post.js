@@ -194,7 +194,7 @@ function* uploadImages(action) {
     const result = yield call(uploadImagesAPI, action.data);
     yield put({
       type: UPLOAD_IMAGES_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (e) {
     console.error(e);
